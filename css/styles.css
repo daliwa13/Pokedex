@@ -53,3 +53,22 @@ h1{
 .normal {
     color: var(--grey);
 }
+
+@media screen and (max-width: 480px) {
+    h1{
+        font-size: 24px;
+    }
+    h2{
+        font-size: 18px;
+    }
+    #pokemonListText {
+        font-size: 14px;
+        margin: 12px;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .pokeball {
+        width: 200px;
+        height: 200px;
+    }
+}
