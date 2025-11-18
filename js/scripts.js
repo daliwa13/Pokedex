@@ -14,14 +14,14 @@ let pokemonList = [
 
 // Function to print Pokemon names and height details
 function printArrayDetails(list) {
+    let text = '';
     // Printing get all Pokemon names
     for (i = 0; i < list.length; i++) {
-        document.write(list[i].name + ' (height: ' + list[i].height + ')');
+        text = text + list[i].name + ' (height: ' + list[i].height + ')';
         if (list[i].height >= 3) {
-            document.write(' - This Pokemon is a big Pokemon!');
+            text = text +' - This Pokemon is a big Pokemon!';
         }
-        document.write('<br>');
+        text = text +'<br>';
     }
+    document.getElementById('pokemonListText').innerHTML = text;
 }
-
-printArrayDetails(pokemonList);

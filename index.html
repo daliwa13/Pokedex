@@ -5,10 +5,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple JS App</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Orbitron:wght@400..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 
 <body>
+    <h1>POKEDEX</h1>
+    <h2>Click on the Pokeball to see the Pokemon list</h2>
+    <div onclick="printArrayDetails(pokemonList)">
+        <img src="img/pokeball_300.jpg" alt="pokeball image" class="pokeball">
+    </div>
+    <div id="pokemonListText"></div>
     <script src="js/scripts.js"></script>
 </body>
 
