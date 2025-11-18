@@ -17,7 +17,7 @@ function printArrayDetails(list) {
     let text = '';
     // Printing get all Pokemon names
     for (i = 0; i < list.length; i++) {
-        text = text + list[i].name + ' (height: ' + list[i].height + ')';
+        text = text + '<span class="' + list[i].types[0] + ' bold">' + list[i].name + '</span>' + ' (height: ' + list[i].height + ')';
         if (list[i].height >= 3) {
             text = text +' - This Pokemon is a big Pokemon!';
         }

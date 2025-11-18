@@ -1,3 +1,14 @@
+:root {
+    --red: #e72e29;
+    --orange: #e65c00;
+    --yellow: #e6e600;
+    --brown: #993333;
+    --green: #336600;
+    --blue: #0000cc;
+    --purple: #660099;
+    --grey: #666666;
+}
+
 body {
     font-family: 'Orbitron', sans-serif;
     max-width: 90%;
@@ -5,12 +16,40 @@ body {
 }
 
 h1{
-    color: red;
+    color: var(--red);
     font-weight: 700;
 }
 
 #pokemonListText {
-    margin-top: 20px;
+    margin: 20px;
     font-size: 18px;
     line-height: 1.5;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.bold {
+    font-weight: 700;
+}
+.grass {
+    color: var(--green);
+}
+.fire {
+    color: var(--orange);
+}
+.water {
+    color: var(--blue);
+}
+.electric {
+    color: var(--yellow);
+}
+.bug {
+    color: var(--brown);
+}
+.poison {
+    color: var(--purple);
+}
+.normal {
+    color: var(--grey);
 }
