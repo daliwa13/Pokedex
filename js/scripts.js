@@ -21,7 +21,15 @@ let pokemonRepository = (function () {
 
     // function to add a new Pokemon
     function add(item) {
-        pokemonList.push(item);
+        if (typeof item !== 'object') {
+            console.log('Item is not an object!');
+        } else {
+            if (typeof item.name !== 'string' || typeof item.height !== 'number' || Array.isArray(item.types) === false) {
+                console.log('Item properties are not correct!');
+            } else {
+                pokemonList.push(item);
+            }
+        }
     }
     // Return statement of the whole IIFE
     return {
