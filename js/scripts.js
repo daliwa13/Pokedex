@@ -21,13 +21,21 @@ let pokemonRepository = (function () {
 
     // function to add a new Pokemon
     function add(item) {
-        if (typeof item !== 'object') {
-            console.log('Item is not an object!');
+        // Validation checks for the item being added
+        if (typeof item !== 'object') { //If object check
+            console.error('Item is not an object!');
         } else {
-            if (typeof item.name !== 'string' || typeof item.height !== 'number' || Array.isArray(item.types) === false) {
-                console.log('Item properties are not correct!');
+            if (typeof item.name !== 'string' || typeof item.height !== 'number' || Array.isArray(item.types) === false) { // Property type checks
+                console.error('Item properties are not correct!');
             } else {
-                pokemonList.push(item);
+                Object.keys(item).forEach(function (key) { // Property/key checks
+                    if (key !== 'name' && key !== 'height' && key !== 'types') {
+                        console.error('Item properties/keys are not correct!');
+                    } else { // If all checks are passed, add the item
+                        pokemonList.push(item);
+                        console.log(item.name + ' has been added to the repository.');
+                    }
+                });
             }
         }
     }
