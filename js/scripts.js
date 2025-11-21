@@ -54,3 +54,22 @@ pokemonRepository.getAll().forEach(function (list) {
     }
     document.write('<br>');
 });
+
+// Filter by name (max 1 result expected)
+function getPokemonByNameUsingFilter(pokemonName) {
+    if (typeof pokemonName !== 'string') {
+        console.error('Pokemon name must be a string!');
+        return;
+    } else {
+        const filteredResults = pokemonRepository.getAll().filter(pokemon => pokemon.name.toUpperCase() === pokemonName.toUpperCase());
+        // Log results to console
+        if (filteredResults.length === 0) {
+            console.log('No Pokemon found with the name: ' + pokemonName);
+        } else {
+            console.log('Pokemon found: ', filteredResults[0]);
+        }
+        // return the matching Pokemon or undefined
+        return filteredResults.length > 0 ? filteredResults[0] : undefined;
+    }
+
+}
