@@ -1,0 +1,88 @@
+:root {
+    --red: #e72e29;
+    --orange: #e65c00;
+    --yellow: #e6e600;
+    --brown: #993333;
+    --green: #336600;
+    --blue: #0000cc;
+    --purple: #660099;
+    --grey: #666666;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    margin: 10px;
+}
+
+h1 {
+    color: var(--red);
+    font-weight: 700;
+}
+
+.pokemon-list {
+    list-style: none;
+    margin: 20px;
+    padding: 0px;
+}
+
+.pokemon-list-button {
+    font-family: inherit;
+    margin: 5px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    width: 200px;
+    font-weight: 700;
+}
+
+.grass {
+    color: var(--green);
+}
+
+.fire {
+    color: var(--orange);
+}
+
+.water {
+    color: var(--blue);
+}
+
+.electric {
+    color: var(--yellow);
+}
+
+.bug {
+    color: var(--brown);
+}
+
+.poison {
+    color: var(--purple);
+}
+
+.normal {
+    color: var(--grey);
+}
+
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    #pokemonListText {
+        font-size: 14px;
+        margin: 12px;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .pokeball {
+        width: 200px;
+        height: 200px;
+    }
+}

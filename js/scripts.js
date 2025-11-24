@@ -57,19 +57,33 @@ let pokemonRepository = (function () {
         }
 
     }
+    // Function to print Pokemon names as buttons using JS
+    function addListItem(pokemon) {
+        let pokemonListElement = document.querySelector('ul');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-list-button', pokemon.types[0]);
+        listItem.appendChild(button);
+        pokemonListElement.appendChild(listItem);
+        button.addEventListener('click', function () {
+            showDetails(pokemon);
+        });
+    }
+
+    function showDetails(pokemon) {
+        console.log(pokemon);
+    }
+
     // Return statement of the whole IIFE
     return {
         getAll: getAll,
         add: add,
-        filter: getPokemonByNameUsingFilter
+        filter: getPokemonByNameUsingFilter,
+        addListItem: addListItem
     };
 })();
 
-// Function to print Pokemon names and height details
-pokemonRepository.getAll().forEach(function (list) {
-    document.write(list.name + ' (height: ' + list.height + ')');
-    if (list.height >= 3) {
-        document.write(' - This Pokemon is a big Pokemon!');
-    }
-    document.write('<br>');
-});
+pokemonRepository.getAll().forEach(function (item) {
+    pokemonRepository.addListItem(item);
+})
