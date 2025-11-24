@@ -71,6 +71,7 @@ let pokemonRepository = (function () {
         });
     }
 
+    // Function to show details of a Pokemon in the console
     function showDetails(pokemon) {
         console.log(pokemon);
     }
@@ -84,6 +85,10 @@ let pokemonRepository = (function () {
     };
 })();
 
-pokemonRepository.getAll().forEach(function (item) {
-    pokemonRepository.addListItem(item);
-})
+// Event listener for the pokeball click that creates the list of Pokemon as buttons
+let pokeball = document.querySelector('.pokeball');
+pokeball.addEventListener('click', function () {
+    pokemonRepository.getAll().forEach(function (item) {
+        pokemonRepository.addListItem(item);
+    })
+});
