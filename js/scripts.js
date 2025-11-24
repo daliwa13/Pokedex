@@ -66,8 +66,9 @@ let pokemonRepository = (function () {
         button.classList.add('pokemon-list-button', pokemon.types[0]);
         listItem.appendChild(button);
         pokemonListElement.appendChild(listItem);
+        // Event listener for each button to show in console only name on click
         button.addEventListener('click', function () {
-            showDetails(pokemon);
+            showDetails(pokemon.name);
         });
     }
 
