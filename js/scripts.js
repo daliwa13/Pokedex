@@ -45,7 +45,7 @@ let pokemonRepository = (function () {
             console.error('Pokemon name must be a string!');
             return;
         } else {
-            const filteredResults = pokemonRepository.getAll().filter(pokemon => pokemon.name.toUpperCase() === pokemonName.toUpperCase());
+            const filteredResults = pokemonList.filter(pokemon => pokemon.name.toUpperCase() === pokemonName.toUpperCase());
             // Log results to console
             if (filteredResults.length === 0) {
                 console.log('No Pokemon found with the name: ' + pokemonName);
