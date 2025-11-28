@@ -111,8 +111,18 @@ let pokemonRepository = (function () {
         let titleElement = document.createElement('h1');
         titleElement.innerText = name.toUpperCase();
 
-        let contentElement = document.createElement('p');
-        contentElement.innerText = 'Height: ' + height + '\nTypes: ' + types.map(typeInfo => typeInfo.type.name).join(', ');
+        let heightElement = document.createElement('p');
+        heightElement.innerText = 'Height: ' + height;
+
+        let typesContainer = document.createElement('div');
+        typesContainer.classList.add('pokemon-types');
+
+        types.forEach(typeInfo => {
+            let typeButton = document.createElement('button');
+            typeButton.classList.add('type-button', typeInfo.type.name);
+            typeButton.innerText = typeInfo.type.name.toLowerCase();
+            typesContainer.appendChild(typeButton);
+        });
 
         let imageElement = document.createElement('img');
         imageElement.src = imageUrl;
@@ -120,7 +130,8 @@ let pokemonRepository = (function () {
         modal.appendChild(closeButtonElement);
         modal.appendChild(titleElement);
         modal.appendChild(imageElement);
-        modal.appendChild(contentElement);
+        modal.appendChild(heightElement);
+        modal.appendChild(typesContainer);
         modalContainer.appendChild(modal);
 
         modalContainer.classList.add('is-visible');

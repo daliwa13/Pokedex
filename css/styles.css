@@ -4,9 +4,10 @@
     --yellow: #e6e600;
     --brown: #993333;
     --green: #336600;
-    --blue: #0000cc;
+    --blue: #00a6ff;
     --purple: #660099;
     --grey: #666666;
+    --pink: #ff66cc;
 }
 
 body {
@@ -18,6 +19,10 @@ body {
 h1 {
     color: var(--red);
     font-weight: 700;
+}
+
+p {
+    font-size: 16px;
 }
 
 .pokemon-list {
@@ -35,34 +40,6 @@ h1 {
     padding: 5px;
     width: 200px;
     font-weight: 700;
-}
-
-.grass {
-    color: var(--green);
-}
-
-.fire {
-    color: var(--orange);
-}
-
-.water {
-    color: var(--blue);
-}
-
-.electric {
-    color: var(--yellow);
-}
-
-.bug {
-    color: var(--brown);
-}
-
-.poison {
-    color: var(--purple);
-}
-
-.normal {
-    color: var(--grey);
 }
 
 /* Modal styles */
@@ -105,6 +82,101 @@ h1 {
     cursor: pointer;
 }
 
+/* Type button styles */
+.type-button {
+    font-family: inherit;
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 5px;
+    color: #000;
+    font-weight: 700;
+    background: var(--grey);
+}
+
+.grass {
+    background: var(--green);
+}
+
+.fire {
+    background: var(--orange);
+}
+
+.fairy {
+    background: var(--pink);
+}
+
+.water {
+    background: var(--blue);
+}
+
+.electric {
+    background: var(--yellow);
+}
+
+.bug {
+    background: var(--brown);
+    color: #fff;
+}
+
+.poison {
+    background: var(--purple);
+    color: #fff;
+}
+
+.normal {
+    background: var(--grey);
+}
+
+.fighting {
+    background: var(--red);
+}
+
+.flying {
+    background: var(--purple);
+    color: #fff;
+}
+
+.rock {
+    background: var(--grey);
+}
+
+.ground {
+    background: var(--brown);
+    color: #fff;
+}
+
+.psychic {
+    background: var(--purple);
+    color: #fff;
+}
+
+.ghost {
+    background: var(--blue);
+}
+
+.ice {
+    background: var(--blue);
+}
+
+.dragon {
+    background: var(--orange);
+}
+
+.dark {
+    background: #000;
+    color: #fff;
+}
+
+.steel {
+    background: var(--grey);
+}
+
+.stellar {
+    background: var(--yellow);
+}
+
+/* Responsive design for smaller screens */
 @media screen and (max-width: 480px) {
     h1 {
         font-size: 24px;
@@ -112,6 +184,17 @@ h1 {
 
     h2 {
         font-size: 18px;
+    }
+
+    p{
+        font-size: 12px;
+        margin: 8px;
+    }
+
+    .type-button {
+        font-size: 12px;
+        padding: 3px;
+        margin: 3px;
     }
 
     #pokemonListText {
