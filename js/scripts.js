@@ -6,23 +6,15 @@ let pokemonRepository = (function () {
 
     // function to add a new Pokemon
          function add(item) {
-            // Validation checks for the item being added
-            if (typeof item !== 'object') { //If object check
-                console.error('Item is not an object!');
-            } else {
-                if (typeof item.name !== 'string' || typeof item.detailsUrl !== 'string') { // Property type checks
-                    console.error('Item properties are not correct!');
-                } else {
-                    Object.keys(item).forEach(function (key) { // Key checks
-                        if (key !== 'name' && key !== 'detailsUrl') {
-                            console.error('Item properties/keys are not correct!');
-                        } else { // If all checks are passed, add the item
-                            pokemonList.push(item);
-                        }
-                    });
-                }
+             if (
+                 typeof item === "object" &&
+                 "name" in item
+             ) {
+                 pokemonList.push(item);
+             } else {
+                 console.log("pokemon is not correct");
+             }
             }
-        }
 
     // Function to get all Pokemon
     function getAll() {
@@ -59,7 +51,7 @@ let pokemonRepository = (function () {
         //button.classList.add('pokemon-list-button', pokemon.types[0]);
         listItem.appendChild(button);
         pokemonListElement.appendChild(listItem);
-        // Event listener for each button to show in console only name on click
+        // Event listener for each button to show in console details about the pokemon on click
         button.addEventListener('click', function () {
             showDetails(pokemon);
         });
@@ -98,9 +90,9 @@ let pokemonRepository = (function () {
     }
 
     // Function to show details of a Pokemon when its button is clicked
-    function showDetails(pokemonName) {
-        loadDetails(pokemonName).then(function () {
-            console.log(pokemonName);
+    function showDetails(item) {
+        loadDetails(item).then(function () {
+            console.log(item);
         });
     }
 
@@ -118,11 +110,17 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
-pokeball.addEventListener('click', function () {
-    // Load the list of Pokemon and then add them to the page
-    pokemonRepository.loadList().then(function () {
-        pokemonRepository.getAll().forEach(function (pokemon) {
-            pokemonRepository.addListItem(pokemon);
+let firstListItem = document.querySelector('.pokemon-list :first-child');
+
+if (firstListItem === null) {
+    pokeball.addEventListener('click', function () {
+        // Load the list of Pokemon and then add them to the page
+        pokemonRepository.loadList().then(function () {
+            pokemonRepository.getAll().forEach(function (pokemon) {
+                pokemonRepository.addListItem(pokemon);
+            });
         });
     });
-});
+} else {
+    console.log('Pokemon list already loaded.');
+}
