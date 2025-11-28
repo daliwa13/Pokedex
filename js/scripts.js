@@ -2,7 +2,7 @@
 let pokemonRepository = (function () {
     // Pokemon data array
     let pokemonList = [];
-    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=5';
+    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
     let modalContainer = document.querySelector('#modal-container');
 
     // function to add a new Pokemon
@@ -119,8 +119,8 @@ let pokemonRepository = (function () {
 
         modal.appendChild(closeButtonElement);
         modal.appendChild(titleElement);
-        modal.appendChild(contentElement);
         modal.appendChild(imageElement);
+        modal.appendChild(contentElement);
         modalContainer.appendChild(modal);
 
         modalContainer.classList.add('is-visible');
