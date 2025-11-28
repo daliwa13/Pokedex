@@ -3,6 +3,7 @@ let pokemonRepository = (function () {
     // Pokemon data array
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=5';
+    let modalContainer = document.querySelector('#modal-container');
 
     // function to add a new Pokemon
          function add(item) {
@@ -92,9 +93,58 @@ let pokemonRepository = (function () {
     // Function to show details of a Pokemon when its button is clicked
     function showDetails(item) {
         loadDetails(item).then(function () {
-            console.log(item);
+            showModal(item.name, item.height, item.types, item.imageUrl);
         });
     }
+
+    function showModal(name, height, types, imageUrl) {
+        // Clear all existing modal content
+        modalContainer.innerHTML = '';
+        // Create modal element inside the container
+        let modal = document.createElement('div');
+        modal.classList.add('modal');
+        let closeButtonElement = document.createElement('button');
+        closeButtonElement.classList.add('modal-close');
+        closeButtonElement.innerText = 'X';
+        closeButtonElement.addEventListener('click', hideModal);
+
+        let titleElement = document.createElement('h1');
+        titleElement.innerText = name.toUpperCase();
+
+        let contentElement = document.createElement('p');
+        contentElement.innerText = 'Height: ' + height + '\nTypes: ' + types.map(typeInfo => typeInfo.type.name).join(', ');
+
+        let imageElement = document.createElement('img');
+        imageElement.src = imageUrl;
+
+        modal.appendChild(closeButtonElement);
+        modal.appendChild(titleElement);
+        modal.appendChild(contentElement);
+        modal.appendChild(imageElement);
+        modalContainer.appendChild(modal);
+
+        modalContainer.classList.add('is-visible');
+    }
+
+    // Function to hide the modal
+    function hideModal() {
+        modalContainer.classList.remove('is-visible');
+    }
+
+    // Close modal when clicking outside of it
+    modalContainer.addEventListener('click', (e) => {
+        let target = e.target;
+        if (target === modalContainer) {
+            hideModal();
+        }
+    });
+
+    // Close modal when pressing the Escape key
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
+            hideModal();
+        }
+    });
 
     // Return statement of the whole IIFE
     return {
@@ -112,6 +162,7 @@ let pokemonRepository = (function () {
 let pokeball = document.querySelector('.pokeball');
 let firstListItem = document.querySelector('.pokemon-list :first-child');
 
+// If statement to prevent re-adding the list on multiple clicks
 if (firstListItem === null) {
     pokeball.addEventListener('click', function () {
         // Load the list of Pokemon and then add them to the page
