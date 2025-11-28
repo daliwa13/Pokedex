@@ -171,18 +171,19 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
-let firstListItem = document.querySelector('.pokemon-list :first-child');
+let isListLoaded = false;
 
 // If statement to prevent re-adding the list on multiple clicks
-if (firstListItem === null) {
     pokeball.addEventListener('click', function () {
+        if (isListLoaded) {
+            console.log('Pokemon list already loaded.');
+            return;
+        }
         // Load the list of Pokemon and then add them to the page
         pokemonRepository.loadList().then(function () {
             pokemonRepository.getAll().forEach(function (pokemon) {
                 pokemonRepository.addListItem(pokemon);
             });
         });
+        isListLoaded = true;
     });
-} else {
-    console.log('Pokemon list already loaded.');
-}
