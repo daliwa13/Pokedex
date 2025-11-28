@@ -78,8 +78,13 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
     /* to show it above other content */
     z-index: 999; 
+
+    /* to center the modal */
     display: grid;
     text-align: center;
+
+    /* to allow scrolling if content is too tall */
+    overflow: auto;
 }
 
 .modal{
