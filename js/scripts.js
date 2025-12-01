@@ -6,16 +6,16 @@ let pokemonRepository = (function () {
     let modalContainer = document.querySelector('#modal-container');
 
     // function to add a new Pokemon
-         function add(item) {
-             if (
-                 typeof item === "object" &&
-                 "name" in item
-             ) {
-                 pokemonList.push(item);
-             } else {
-                 console.log("pokemon is not correct");
-             }
-            }
+    function add(item) {
+        if (
+            typeof item === "object" &&
+            "name" in item
+        ) {
+            pokemonList.push(item);
+        } else {
+            console.log("pokemon is not correct");
+        }
+    }
 
     // Function to get all Pokemon
     function getAll() {
@@ -39,7 +39,7 @@ let pokemonRepository = (function () {
             return filteredResults.length > 0 ? filteredResults[0] : undefined;
         }
     }
-    
+
     // Function to print Pokemon names as buttons using JS
     function addListItem(pokemon) {
         let pokemonListElement = document.querySelector('ul');
@@ -171,19 +171,11 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
-let isListLoaded = false;
 
-// If statement to prevent re-adding the list on multiple clicks
-    pokeball.addEventListener('click', function () {
-        if (isListLoaded) {
-            console.log('Pokemon list already loaded.');
-            return;
-        }
-        // Load the list of Pokemon and then add them to the page
-        pokemonRepository.loadList().then(function () {
-            pokemonRepository.getAll().forEach(function (pokemon) {
-                pokemonRepository.addListItem(pokemon);
-            });
+pokeball.addEventListener('click', function () {
+    pokemonRepository.loadList().then(function () {
+        pokemonRepository.getAll().forEach(function (pokemon) {
+            pokemonRepository.addListItem(pokemon);
         });
-        isListLoaded = true;
     });
+}, { once: true}); // 'once' option to ensure the event listener is only triggered once
