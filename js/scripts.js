@@ -3,7 +3,7 @@ let pokemonRepository = (function () {
     // Pokemon data array
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
-    let modalContainer = document.querySelector('#modal-container');
+    let modalContainer = document.querySelector('#pokemonModal');
 
     // function to add a new Pokemon
     function add(item) {
@@ -93,62 +93,31 @@ let pokemonRepository = (function () {
     // Function to show details of a Pokemon when its button is clicked
     function showDetails(item) {
         loadDetails(item).then(function () {
-            showModal(item.name, item.height, item.types, item.imageUrl);
+            showModal(item); // Load full item not just particular details
         });
     }
 
-    function showModal(name, height, types, imageUrl) {
+    function showModal(item) {
+        let modalBody= $('.modal-body');
+        let modalTitle= $('.modal-title');
         // Clear all existing modal content
-        modalContainer.innerHTML = '';
-        // Create modal element inside the container
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'X';
-        closeButtonElement.addEventListener('click', hideModal);
+        modalBody.empty();
+        modalTitle.empty();
+        // Update modal's content based on the Pokemon details
+        modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
 
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = name.toUpperCase();
-
-        let heightElement = document.createElement('p');
-        heightElement.innerText = 'Height: ' + height;
-
-        let typesContainer = document.createElement('div');
-        typesContainer.classList.add('pokemon-types');
-
-        types.forEach(typeInfo => {
+        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' /><br>"); // Add image
+        modalBody.html(modalBody.html() + "<p>Height: " + item.height + "</p>") // Add height
+        // Add types as buttons
+        item.types.forEach(typeInfo => {
             let typeButton = document.createElement('button');
             typeButton.classList.add('type-button', typeInfo.type.name);
             typeButton.innerText = typeInfo.type.name.toLowerCase();
-            typesContainer.appendChild(typeButton);
+            modalBody.append(typeButton);
         });
 
-        let imageElement = document.createElement('img');
-        imageElement.src = imageUrl;
-
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(titleElement);
-        modal.appendChild(imageElement);
-        modal.appendChild(heightElement);
-        modal.appendChild(typesContainer);
-        modalContainer.appendChild(modal);
-
-        modalContainer.classList.add('is-visible');
+        $("#pokemonModal").modal("show");
     }
-
-    // Function to hide the modal
-    function hideModal() {
-        modalContainer.classList.remove('is-visible');
-    }
-
-    // Close modal when clicking outside of it
-    modalContainer.addEventListener('click', (e) => {
-        let target = e.target;
-        if (target === modalContainer) {
-            hideModal();
-        }
-    });
 
     // Close modal when pressing the Escape key
     window.addEventListener('keydown', (e) => {
@@ -167,7 +136,7 @@ let pokemonRepository = (function () {
         loadDetails: loadDetails,
         showDetails: showDetails
     };
-})();
+})(); // <-- Pokemons' IIFE ends and runs here
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
@@ -179,3 +148,9 @@ pokeball.addEventListener('click', function () {
         });
     });
 }, { once: true}); // 'once' option to ensure the event listener is only triggered once
+
+/* pokemonRepository.loadList().then(function () {
+    pokemonRepository.getAll().forEach(function (pokemon) {
+        pokemonRepository.addListItem(pokemon);
+    });
+}); */

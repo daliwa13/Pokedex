@@ -9,3 +9,6 @@ Download the files to a folder and open index.html in a web browser of your choi
 - CSS 3
 - JavaScript
 - pokeapi.co
+
+## To do
+- Add removing the pokeball img after first click with transition (scale - minimize) in CSS
