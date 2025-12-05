@@ -2,7 +2,6 @@
 let pokemonRepository = (function () {
     // Pokemon data array
     let pokemonList = [];
-    let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
     let modalContainer = document.querySelector('#pokemonModal');
 
     // function to add a new Pokemon
@@ -42,31 +41,37 @@ let pokemonRepository = (function () {
 
     // Function to print Pokemon names as buttons using JS
     function addListItem(pokemon) {
-        let pokemonListElement = document.querySelector('ul');
-        let listItem = document.createElement('li');
-        let button = document.createElement('button');
-        button.innerText = pokemon.name;
-        button.classList.add('pokemon-list-button');
-        // Commented out due to change in source data structure
-        //UPDATE LATER: Re-add type-based styling after you load types earlier in the process and as an array not an object!
-        //button.classList.add('pokemon-list-button', pokemon.types[0]);
-        listItem.appendChild(button);
+        let pokemonListElement = document.querySelector('#pokemon-list-row');
+        let listItem = document.createElement('div'); // Create card div
+        let cardBody = document.createElement('div'); // Create card body div
+        let cardText = document.createElement('h2'); // Create h2 element
+/*         let cardImg = document.createElement('img'); // Create image element */
+
+        listItem.classList.add('card', 'pokemon-list-card');
+        cardBody.classList.add('pokemon-list-button', 'card-body');
+        cardText.innerText = pokemon.name[0].toUpperCase() + pokemon.name.slice(1); // Capitalize first letter
+/*         cardImg.src = "https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png";
+        cardImg.alt = pokemon.name + ' image'; */
+
+        cardBody.appendChild(cardText);
+/*         cardBody.appendChild(cardImg); */
+        listItem.appendChild(cardBody);
         pokemonListElement.appendChild(listItem);
         // Event listener for each button to show in console details about the pokemon on click
-        button.addEventListener('click', function () {
+        listItem.addEventListener('click', function () {
             showDetails(pokemon);
         });
     }
 
     // Function to load the list of Pokemon from the API
-    function loadList() {
+    function loadList(apiUrl) {
         return fetch(apiUrl).then(function (response) {
             return response.json();
         }).then(function (json) {
             json.results.forEach(function (item) {
                 let pokemon = {
                     name: item.name,
-                    detailsUrl: item.url
+                    detailsUrl: item.url,
                 };
                 add(pokemon);
             });
@@ -82,9 +87,10 @@ let pokemonRepository = (function () {
             return response.json();
         }).then(function (details) {
             // Assign details to the item
-            item.imageUrl = details.sprites.front_default; //load picture
+            item.imageUrl = details.sprites.other.dream_world.front_default; //load SVG picture
             item.height = details.height; //load height
             item.types = details.types; //load types as an object
+            item.weight = details.weight; //load weight
         }).catch(function (e) {
             console.error(e);
         });
@@ -106,8 +112,9 @@ let pokemonRepository = (function () {
         // Update modal's content based on the Pokemon details
         modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
 
-        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' /><br>"); // Add image
+        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' style='max-width: 20rem; max-height: 12rem;' /><br>"); // Add image
         modalBody.html(modalBody.html() + "<p>Height: " + item.height + "</p>") // Add height
+        modalBody.html(modalBody.html() + "<p>Weight: " + item.weight + "</p>") // Add weight
         // Add types as buttons
         item.types.forEach(typeInfo => {
             let typeButton = document.createElement('button');
@@ -140,17 +147,12 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
+let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
 pokeball.addEventListener('click', function () {
-    pokemonRepository.loadList().then(function () {
+    pokemonRepository.loadList(apiUrl).then(function () {
         pokemonRepository.getAll().forEach(function (pokemon) {
             pokemonRepository.addListItem(pokemon);
         });
     });
 }, { once: true}); // 'once' option to ensure the event listener is only triggered once
-
-/* pokemonRepository.loadList().then(function () {
-    pokemonRepository.getAll().forEach(function (pokemon) {
-        pokemonRepository.addListItem(pokemon);
-    });
-}); */
