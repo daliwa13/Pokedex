@@ -112,7 +112,7 @@ let pokemonRepository = (function () {
         // Update modal's content based on the Pokemon details
         modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
 
-        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' style='max-width: 20rem; max-height: 12rem;' /><br>"); // Add image
+        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' style='max-width: 20rem; max-height: 12rem; margin-bottom: 1.5rem;' /><br>"); // Add image
         modalBody.html(modalBody.html() + "<p>Height: " + item.height + "</p>") // Add height
         modalBody.html(modalBody.html() + "<p>Weight: " + item.weight + "</p>") // Add weight
         // Add types as buttons

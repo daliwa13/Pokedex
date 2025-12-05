@@ -15,7 +15,20 @@
 </head>
 
 <body>
-    <h1 class="display-4">POKEDEX</h1>
+    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="#"><h1>POKEDEX</h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0"  id="search-form">
+                <input class="form-control mr-sm-2" type="search" id="search-input" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div></nav>
+
     <h2 id="instructions">Click on the Pokeball to see what Pokemons it's hiding</h2>
     <div>
         <img src="img/pokeball_300.jpg" alt="pokeball image" class="pokeball" width="300px" height="300px">
