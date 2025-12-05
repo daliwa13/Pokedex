@@ -147,12 +147,20 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as buttons
 let pokeball = document.querySelector('.pokeball');
+let instructions = document.querySelector('#instructions');
 let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
 pokeball.addEventListener('click', function () {
-    pokemonRepository.loadList(apiUrl).then(function () {
-        pokemonRepository.getAll().forEach(function (pokemon) {
-            pokemonRepository.addListItem(pokemon);
+    pokeball.classList.add('disappear'); // Add the disappear class to pokeball
+    instructions.classList.add('move-away'); // Add the disappear class to <h2> instructions
+
+    pokeball.addEventListener('transitionend', function () {
+        pokeball.style.display = 'none'; // Hide the pokeball after the transition
+        instructions.style.display = 'none'; // Hide instructions
+        pokemonRepository.loadList(apiUrl).then(function () {
+            pokemonRepository.getAll().forEach(function (pokemon) {
+                pokemonRepository.addListItem(pokemon);
+            });
         });
     });
-}, { once: true}); // 'once' option to ensure the event listener is only triggered once
+});

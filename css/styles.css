@@ -43,6 +43,7 @@ p {
 }
 .card {
     border: none;
+    cursor: pointer;
 }
 
 /* Type button styles */
@@ -137,4 +138,31 @@ p {
 
 .stellar {
     background: var(--yellow);
+}
+
+.pokeball {
+    cursor: pointer;
+    border-radius: 40%;
+}
+/* Transition to hide the pokeball after click */
+.disappear {
+    transform: scale(0) rotate(170deg);
+    transition: all 3s ease;
+}
+.move-away {
+    transform: translateY(-500px);
+    transition: all 3s ease;
+}
+
+@media (max-width: 480px) {
+    .pokeball{
+        width: 200px;
+        height: 200px;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    .display-4 {
+        font-size: 2.5rem;
+    }
 }
