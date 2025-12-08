@@ -50,6 +50,12 @@ p {
     border-color: var(--red);
 }
 
+.modal-img {
+    max-width: 20rem;
+    max-height: 12rem;
+    margin-bottom: 1.5rem;
+}
+
 /* Type button styles */
 .type-button {
     font-family: inherit;

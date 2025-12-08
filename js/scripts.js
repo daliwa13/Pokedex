@@ -39,26 +39,22 @@ let pokemonRepository = (function () {
         }
     }
 
-    // Function to print Pokemon names as buttons using JS
+    // Function to print Pokemon names as buttons using jQuerry
     function addListItem(pokemon) {
-        let pokemonListElement = document.querySelector('#pokemon-list-row');
-        let listItem = document.createElement('div'); // Create card div
-        let cardBody = document.createElement('div'); // Create card body div
-        let cardText = document.createElement('h2'); // Create h2 element
-/*         let cardImg = document.createElement('img'); // Create image element */
+        let pokemonListElement = $('#pokemon-list-row');
+        let listItem = $('<div></div>'); // Create card div
+        let cardBody = $('<div></div>'); // Create card body div
+        let cardText = $('<h2></h2>'); // Create h2 element
 
-        listItem.classList.add('card', 'pokemon-list-card');
-        cardBody.classList.add('pokemon-list-button', 'card-body');
-        cardText.innerText = pokemon.name[0].toUpperCase() + pokemon.name.slice(1); // Capitalize first letter
-/*         cardImg.src = "https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png";
-        cardImg.alt = pokemon.name + ' image'; */
+        listItem.addClass('card', 'pokemon-list-card');
+        cardBody.addClass('pokemon-list-button', 'card-body');
+        cardText.text(pokemon.name[0].toUpperCase() + pokemon.name.slice(1)); // Capitalize first letter
 
-        cardBody.appendChild(cardText);
-/*         cardBody.appendChild(cardImg); */
-        listItem.appendChild(cardBody);
-        pokemonListElement.appendChild(listItem);
+        cardBody.append(cardText);
+        listItem.append(cardBody);
+        pokemonListElement.append(listItem);
         // Event listener for each button to show in console details about the pokemon on click
-        listItem.addEventListener('click', function () {
+        listItem.on('click', function () {
             showDetails(pokemon);
         });
     }
@@ -106,20 +102,21 @@ let pokemonRepository = (function () {
     function showModal(item) {
         let modalBody= $('.modal-body');
         let modalTitle= $('.modal-title');
+        let modalIMG = $("<img>");
         // Clear all existing modal content
         modalBody.empty();
         modalTitle.empty();
         // Update modal's content based on the Pokemon details
         modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
-
-        modalBody.html("<img class ='modal-img' src='" + item.imageUrl + "' alt='" + item.name + "' style='max-width: 20rem; max-height: 12rem; margin-bottom: 1.5rem;' /><br>"); // Add image
-        modalBody.html(modalBody.html() + "<p>Height: " + item.height + "</p>") // Add height
-        modalBody.html(modalBody.html() + "<p>Weight: " + item.weight + "</p>") // Add weight
+        modalIMG = $("<img>").addClass("modal-img").attr("src", item.imageUrl).attr("alt", item.name);
+        modalBody.append(modalIMG); // Add image
+        modalBody.append("<br><p>Height: " + item.height + "</p>"); // Add height
+        modalBody.append("<p>Weight: " + item.weight + "</p>"); // Add weight
         // Add types as buttons
         item.types.forEach(typeInfo => {
-            let typeButton = document.createElement('button');
-            typeButton.classList.add('type-button', typeInfo.type.name);
-            typeButton.innerText = typeInfo.type.name.toLowerCase();
+            let typeButton = $('<button></button>');
+            typeButton.addClass('type-button ' + typeInfo.type.name);
+            typeButton.text(typeInfo.type.name.toLowerCase());
             modalBody.append(typeButton);
         });
 
@@ -145,7 +142,7 @@ let pokemonRepository = (function () {
     };
 })(); // <-- Pokemons' IIFE ends and runs here
 
-// Event listener for the pokeball click that creates the list of Pokemon as buttons
+// Event listener for the pokeball click that creates the list of Pokemon as cards
 let pokeball = document.querySelector('.pokeball');
 let instructions = document.querySelector('#instructions');
 let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
