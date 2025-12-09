@@ -56,6 +56,11 @@ p {
     margin-bottom: 1.5rem;
 }
 
+.btn-outline-danger{
+    color: var(--red);
+    border-color: var(--red);
+}
+
 /* Type button styles */
 .type-button {
     font-family: inherit;
