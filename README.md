@@ -1,5 +1,6 @@
 # Pokedex
 Pokedex is a simple JS web app that fetches data from public API pokeapi.co, displays them on a webpage and allows to get more information about each pokemon by opening a modal with details after clicking on name of a pokemon.
+It is also possible to filter the pokemons in repository by their names. For that fill out the search form in the navigation pane.
 
 ## Tech Stack
 - HTML 5
