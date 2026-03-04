@@ -41,15 +41,15 @@ let pokemonRepository = (function () {
         function addListItem(pokemon) {
             let pokemonListElement = $('#pokemon-list-row');
             let listItem = $('<div></div>'); // Create card div
-            let cardBody = $('<div></div>'); // Create card body div
+            // let cardBody = $('<div></div>'); // Create card body div
             let cardText = $('<h2></h2>'); // Create h2 element
 
-            listItem.addClass('card', 'pokemon-list-card');
-            cardBody.addClass('pokemon-list-button', 'card-body');
+            listItem.addClass('card pokemon-list-card');
+            cardText.addClass('pokemon-list-name');
             cardText.text(pokemon.name[0].toUpperCase() + pokemon.name.slice(1)); // Capitalize first letter
 
-            cardBody.append(cardText);
-            listItem.append(cardBody);
+            // cardBody.append(cardText);
+            listItem.append(cardText);
             pokemonListElement.append(listItem);
             // Event listener for each button to show in console details about the pokemon on click
             listItem.on('click', function () {
