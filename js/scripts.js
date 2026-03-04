@@ -113,7 +113,7 @@ let pokemonRepository = (function () {
         modalBody.append('<p>Weight: ' + item.weight / 10 + ' kg</p>'); // Add weight
         // Add types as buttons
         modalBody.append('<h4>Types:</h4>');
-        item.types.forEach(typeInfo => {
+        item.types.forEach(typeInfo => { // Loop through types array to create buttons for each type
             let typeButton = $('<button></button>');
             typeButton.addClass('type-button ' + typeInfo.type.name);
             typeButton.text(typeInfo.type.name.toLowerCase());
@@ -124,15 +124,15 @@ let pokemonRepository = (function () {
         modalBody.append('<h4>Stats:</h4>');
         let table = $('<table class="table"></table>');
         let stats = item.stats;
-        stats.forEach(statInfo => {
+        stats.forEach(statInfo => { // Loop through stats array to create a table row for each stat
             let statName = statInfo.stat.name.toUpperCase();
             let statValue = statInfo.base_stat;
             let statsBar = $('<div class="stats-bar"></div>').css('width', 200 + 'px').css('height', '20px'); // Set a fixed width and height for the bar
-            statsBar.css('background', 'linear-gradient(to right, var(--red) 0%, var(--red) ' + statValue + '%, #e9ecef ' + statValue + '%, #e9ecef 100%)'); // Set the color of the bar
+            statsBar.css('background', 'linear-gradient(to right, var(--red) 0%, var(--red) ' + statValue + '%, #e9ecef ' + statValue + '%, #e9ecef 100%)'); // Create stat bar with gradient based on stat value
             let tr = $('<tr></tr>');
-            let th = $('<th></th>').text(statName);
-            let tdBar = $('<td></td>').append(statsBar);
-            let tdValue = $('<td></td>').text(statValue);
+            let th = $('<th></th>').text(statName); // Create table header (1st column in each row) for stat name
+            let tdBar = $('<td></td>').append(statsBar); // Add stats bar to the table cell
+            let tdValue = $('<td></td>').text(statValue); // Create table cell for stat value
             tr.append(th, tdBar, tdValue);
             table.append(tr);
         });
@@ -175,7 +175,9 @@ pokeball.addEventListener('click', function () {
     });
 });
 
+// Function to add a reload button after search results are displayed
 function appendReloadButton() {
+    let pokemonListContainer = document.querySelector('#pokemon-list-container');
     let pokemonListRow = document.querySelector('#pokemon-list-row');
     let existing = document.querySelector('#reload-button');
     if (existing) {
@@ -184,7 +186,7 @@ function appendReloadButton() {
 
     let reloadButton = document.createElement('button');
     reloadButton.id = 'reload-button';
-    reloadButton.className = 'btn btn-outline-danger mt-3';
+    reloadButton.className = 'btn btn-danger mt-3';
     reloadButton.textContent = 'Reload pokemon list';
     reloadButton.addEventListener('click', function () {
         pokemonListRow.innerHTML = '';
@@ -193,11 +195,14 @@ function appendReloadButton() {
                 pokemonRepository.addListItem(pokemon);
             });
         });
+        let searchInput = document.querySelector('#search-input');
+        searchInput.value = ''; // Clear the search input field
     });
 
-    pokemonListRow.appendChild(reloadButton);
+    pokemonListContainer.appendChild(reloadButton);
 }
 
+// Function to handle search form submission
 function handleSearch(event) {
     event.preventDefault(); // Prevent page reload on submit or Enter
     let searchInput = document.querySelector('#search-input').value.toLowerCase();
