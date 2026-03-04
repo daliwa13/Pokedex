@@ -108,8 +108,8 @@ let pokemonRepository = (function () {
             modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
             modalIMG = $('<img>').addClass('modal-img').attr('src', item.imageUrl).attr('alt', item.name);
             modalBody.append(modalIMG); // Add image
-            modalBody.append('<br><p>Height: ' + item.height + '</p>'); // Add height
-            modalBody.append('<p>Weight: ' + item.weight + '</p>'); // Add weight
+            modalBody.append('<br><p>Height: ' + item.height*10 + ' cm</p>'); // Add height
+            modalBody.append('<p>Weight: ' + item.weight/10 + ' kg</p>'); // Add weight
             // Add types as buttons
             item.types.forEach(typeInfo => {
                 let typeButton = $('<button></button>');
