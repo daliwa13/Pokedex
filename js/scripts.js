@@ -88,27 +88,66 @@ let pokemonRepository = (function () {
             item.stats = details.stats; //load stats
         }).catch(function (e) {
             console.error(e);
+            throw e; // Rethrow the error to be handled in the calling function
         });
     }
 
     // Function to show details of a Pokemon when its button is clicked
     function showDetails(item) {
+        tempModal(item); // Show temporary modal with spinner while loading details
+        
         loadDetails(item).then(function () {
             showModal(item); // Load full item not just particular details
+        })
+        .catch(function () {
+            $('.modal-body').html('<p>Failed to load Pokemon details.</p>');
         });
+    }
+
+    function tempModal(item) {
+        let modalTitle = $('.modal-title');
+        // Add name in uppercase to the modal title
+        modalTitle.text(item.name.toUpperCase());
+        // Add spinner to the modal body while loading details
+        showSpinner('.modal-body', 'modal-spinner', 'Loading Pokemon details...', true);
+
+        $('#pokemonModal').modal('show');
     }
 
     function showModal(item) {
         let modalBody = $('.modal-body');
         let modalTitle = $('.modal-title');
-        let modalIMG = $('<img>');
         // Clear all existing modal content
-        modalBody.empty();
-        modalTitle.empty();
+        if (modalTitle.text() !== item.name.toUpperCase()) {
+            modalTitle.empty();
+        }
+        if (modalBody.id !== 'modal-spinner') {
+            modalBody.empty();
+        }
+        
         // Update modal's content based on the Pokemon details
         modalTitle.text(item.name.toUpperCase()); // Add name in uppercase
-        modalIMG = $('<img>').addClass('modal-img').attr('src', item.imageUrl).attr('alt', item.name);
-        modalBody.append(modalIMG); // Add image
+        // Add image to the modal body with spinner while loading the image
+        let imageWrapper = $('<div class="image-wrapper"></div>');
+        modalBody.append(imageWrapper);
+        showSpinner('.image-wrapper', 'modal-image-spinner', 'Loading Pokemon image...', true); // Show spinner while loading image
+        let modalIMG = $('<img>')
+            .addClass('modal-img')
+            .attr('alt', item.name)
+            .css('display', 'none'); // Hide the image until it's fully loaded;
+        
+        modalIMG.on('load', function () {
+            hideSpinner('#modal-image-spinner'); // Hide the spinner once the image is loaded
+            $(this).css('display', ''); // Show the image after it's loaded
+        })
+        modalIMG.on('error', function () {
+            hideSpinner('.image-wrapper', 'modal-image');
+            imageWrapper.append('<p>Image unavailable</p>');
+        });
+        imageWrapper.append(modalIMG); // Add image 
+        modalIMG.attr('src', item.imageUrl);
+        
+        
         modalBody.append('<br><p>Height: ' + item.height * 10 + ' cm</p>'); // Add height
         modalBody.append('<p>Weight: ' + item.weight / 10 + ' kg</p>'); // Add weight
         // Add types as buttons
@@ -167,13 +206,62 @@ pokeball.addEventListener('click', function () {
     pokeball.addEventListener('transitionend', function () {
         pokeball.style.display = 'none'; // Hide the pokeball after the transition
         instructions.style.display = 'none'; // Hide instructions
-        pokemonRepository.loadList(apiUrl).then(function () {
-            pokemonRepository.getAll().forEach(function (pokemon) {
-                pokemonRepository.addListItem(pokemon);
-            });
+        showSpinner('#pokemon-list-row', 'pokemon-list-spinner', 'Loading pokemon list...'); // Show the spinner while loading the Pokemon list
+        pokemonRepository.loadList(apiUrl)
+            .then(function () {
+                // clear row if needed
+                pokemonRepository.getAll().forEach(function (pokemon) {
+                    pokemonRepository.addListItem(pokemon);
+                });
+            })
+            .catch(function () {
+                // show error UI
+            })
+            .finally(function () {
+                hideSpinner('#pokemon-list-spinner'); // Hide the spinner after loading is complete
         });
     });
 });
+
+
+// Show spinner function
+function showSpinner(targetSelector, spinnerKey, label, clearTarget) {
+    let spinnerTarget = document.querySelector(targetSelector);
+    if (!spinnerTarget) {
+        console.error('Spinner target element not found!');
+        return;
+    }
+    if (clearTarget) {
+        spinnerTarget.innerHTML = ''; // Clear the target element if clearTarget is true
+    }
+    let spinnerContainer = document.createElement('div'); // Create a container for the spinner
+    let spinnerElement = document.createElement('div'); // Create the spinner element
+    let spinnerText = document.createElement('span'); // Create a span for screen reader text
+
+    spinnerContainer.className = 'd-flex justify-content-center align-items-center py-4';
+    spinnerContainer.setAttribute('id', spinnerKey); // Set an ID for the spinner element so it can be easily removed later
+    spinnerElement.className = 'spinner-border text-danger';
+    spinnerElement.setAttribute('role', 'status');
+    spinnerElement.setAttribute('aria-live', 'polite');
+    spinnerElement.setAttribute('aria-label', label);
+
+    spinnerText.className = 'sr-only';
+    spinnerText.textContent = label;
+
+    spinnerElement.appendChild(spinnerText); // Add the screen reader text to the spinner element
+    spinnerContainer.appendChild(spinnerElement); // Add the spinner element to the container
+    spinnerTarget.appendChild(spinnerContainer); // Add the spinner container to the target element
+}
+
+// Hide spinner function
+function hideSpinner(spinnerKey) {
+    let spinnerContainer = document.querySelector(spinnerKey);
+    if (spinnerContainer) {
+        spinnerContainer.remove(); // Remove the spinner from the DOM
+    } else {
+        console.warn('Spinner container #' + spinnerKey + ' not found!');
+    }
+}
 
 // Function to add a reload button after search results are displayed
 function appendReloadButton() {
