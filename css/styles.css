@@ -14,6 +14,7 @@ body {
     font-family: 'Orbitron', sans-serif;
     text-align: center;
     margin-top: 100px;
+    margin-bottom: 65px;
 }
 
 h1 {
@@ -62,6 +63,15 @@ p {
 .btn-outline-danger {
     color: var(--red);
     border-color: var(--red);
+}
+
+#footer-center{
+    width: 200px;
+    margin-left: calc(50vw - 100px) !important;
+}
+
+#footer-made_by {
+    font-size: 0.75rem;
 }
 
 /* Type button styles */
@@ -175,8 +185,15 @@ p {
 }
 
 /* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    #footer-center{
+        width: auto;
+        margin-left: 3vw !important;
+    }
+}
+
 @media (max-width: 575px) {
-    .pokeball {
+    #main-pokeball {
         width: 200px;
         height: 200px;
     }
