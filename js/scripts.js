@@ -170,7 +170,7 @@ let pokemonRepository = (function () {
             statsBar.css('background', 'linear-gradient(to right, var(--red) 0%, var(--red) ' + statValue + '%, #e9ecef ' + statValue + '%, #e9ecef 100%)'); // Create stat bar with gradient based on stat value
             let tr = $('<tr></tr>');
             let th = $('<th></th>').text(statName); // Create table header (1st column in each row) for stat name
-            let tdBar = $('<td></td>').append(statsBar); // Add stats bar to the table cell
+            let tdBar = $('<td></td>').addClass('td-bar').append(statsBar); // Add stats bar to the table cell
             let tdValue = $('<td></td>').text(statValue); // Create table cell for stat value
             tr.append(th, tdBar, tdValue);
             table.append(tr);

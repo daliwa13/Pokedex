@@ -208,7 +208,10 @@ p {
     
     .pokemon-list-card {
         min-width: 190px;
-    }    
+    }
+    .td-bar{
+        display: none;
+    }  
 }
 
 @media (min-width: 1400px) {
