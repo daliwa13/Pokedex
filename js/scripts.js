@@ -300,7 +300,8 @@ function handleSearch(event) {
 
     if (filteredPokemon.length === 0) {
         let noResults = document.createElement('p');
-        noResults.textContent = 'No Pokemon with that name has been found';
+        let numberOfPokemon = apiUrl.split('=')[1]; // Extract the number of Pokemon from the API URL for use in the no results message
+        noResults.textContent = 'No Pokemon with that name has been found in this Pokedex, which contains ' + numberOfPokemon + ' Pokemons.';
         pokemonListRow.appendChild(noResults);
         appendReloadButton();
         return;
