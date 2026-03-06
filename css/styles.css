@@ -25,6 +25,9 @@ h1 {
 p {
     font-size: 16px;
 }
+th {
+    min-width: 13rem;
+}
 
 .pokemon-list {
     list-style: none;

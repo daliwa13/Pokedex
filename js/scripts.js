@@ -166,7 +166,7 @@ let pokemonRepository = (function () {
         stats.forEach(statInfo => { // Loop through stats array to create a table row for each stat
             let statName = statInfo.stat.name.toUpperCase();
             let statValue = statInfo.base_stat;
-            let statsBar = $('<div class="stats-bar"></div>').css('width', 200 + 'px').css('height', '20px'); // Set a fixed width and height for the bar
+            let statsBar = $('<div class="stats-bar"></div>').css('width', 170 + 'px').css('height', '20px'); // Set a fixed width and height for the bar
             statsBar.css('background', 'linear-gradient(to right, var(--red) 0%, var(--red) ' + statValue + '%, #e9ecef ' + statValue + '%, #e9ecef 100%)'); // Create stat bar with gradient based on stat value
             let tr = $('<tr></tr>');
             let th = $('<th></th>').text(statName); // Create table header (1st column in each row) for stat name
