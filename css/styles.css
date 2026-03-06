@@ -205,6 +205,10 @@ p {
     h2 {
         font-size: 1.5rem;
     }
+    
+    .pokemon-list-card {
+        min-width: 190px;
+    }    
 }
 
 @media (min-width: 1400px) {
