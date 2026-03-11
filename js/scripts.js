@@ -3,6 +3,49 @@ let pokemonRepository = (function () {
     // Pokemon data array
     let pokemonList = [];
 
+    const STORAGE_KEY = 'pokemonListCache';
+
+    // Function to build cache object (only when there is real data)
+    function buildStorageObject(pokemonList) {
+        return {
+            data: pokemonList,   // array of Pokemon
+            saveAt: Date.now()   // timestamp in ms
+        };
+    }
+
+    // Save to localStorage
+    function savePokemonListToStorage(pokemonList) {
+        try {
+            const storageObject = buildStorageObject(pokemonList);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(storageObject));
+        } catch (error) {
+            console.error('Failed to save pokemon list to localStorage:', error);
+        }
+    }
+
+    // Read from localStorage
+    function loadPokemonListFromStorage() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) {
+                console.log('No pokemon list found in localStorage.');
+                return null;
+            }
+            const parsed = JSON.parse(raw);
+
+            // Basic shape validation
+            if (!parsed || !Array.isArray(parsed.data) || typeof parsed.saveAt !== 'number') {
+                console.error('Invalid pokemon list format in localStorage.');
+                return null;
+            }
+
+            return parsed; // { data: [...], saveAt: 1234567890 }
+        } catch (error) {
+            console.error('Failed to read pokemon list from localStorage:', error);
+            return null;
+        }
+    }
+
     // function to add a new Pokemon
     function add(item) {
         if (
@@ -20,21 +63,37 @@ let pokemonRepository = (function () {
         return pokemonList;
     }
 
-    // Filter by name (partial, case-insensitive)
-    function getPokemonByNameUsingFilter(pokemonName) {
-        if (typeof pokemonName !== 'string') {
-            console.error('Pokemon name must be a string!');
-            return [];
-        }
+    // Function to load the list of Pokemon from the API
+    function loadListFromApi(apiUrl) {
+        pokemonList = []; // Clear the pokemonList before loading new data from the API
+        return fetch(apiUrl).then(function (response) {
+            return response.json();
+        }).then(function (json) {
+            json.results.forEach(function (item) {
+                let pokemon = {
+                    name: item.name,
+                    detailsUrl: item.url,
+                };
+                add(pokemon);
+            });
+            savePokemonListToStorage(pokemonList); // Save the loaded list to localStorage
+        }).catch(function (e) {
+            console.error(e);
+        })
+    }
 
-        const normalizedSearch = pokemonName.trim().toLowerCase();
-        if (!normalizedSearch) {
-            return pokemonList; // empty input returns all
+    // Function to load the list of Pokemon, using cache if available and valid
+    function loadList(apiUrl){
+        const cached = loadPokemonListFromStorage();
+        const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
+        if (cached && (Date.now() - cached.saveAt < cacheDuration)) { // Setting cache validity to 24 hours
+            console.log('Using cached pokemon list from localStorage.');
+            pokemonList = cached.data;
+            return Promise.resolve(); // Return a resolved promise since we're using cached data
+        } else {
+            console.log('Using fresh pokemon list from API.');
+            return loadListFromApi(apiUrl);
         }
-
-        return pokemonList.filter(pokemon =>
-            pokemon.name.toLowerCase().includes(normalizedSearch)
-        );
     }
 
     // Function to print Pokemon names as buttons using jQuerry
@@ -57,21 +116,21 @@ let pokemonRepository = (function () {
         });
     }
 
-    // Function to load the list of Pokemon from the API
-    function loadList(apiUrl) {
-        return fetch(apiUrl).then(function (response) {
-            return response.json();
-        }).then(function (json) {
-            json.results.forEach(function (item) {
-                let pokemon = {
-                    name: item.name,
-                    detailsUrl: item.url,
-                };
-                add(pokemon);
-            });
-        }).catch(function (e) {
-            console.error(e);
-        })
+    // Filter by name (partial, case-insensitive)
+    function getPokemonByNameUsingFilter(pokemonName) {
+        if (typeof pokemonName !== 'string') {
+            console.error('Pokemon name must be a string!');
+            return [];
+        }
+
+        const normalizedSearch = pokemonName.trim().toLowerCase();
+        if (!normalizedSearch) {
+            return pokemonList; // empty input returns all
+        }
+
+        return pokemonList.filter(pokemon =>
+            pokemon.name.toLowerCase().includes(normalizedSearch)
+        );
     }
 
     // Function to load details of a specific Pokemon
@@ -104,6 +163,7 @@ let pokemonRepository = (function () {
         });
     }
 
+    // Function to show a temporary modal with a spinner while loading Pokemon details
     function tempModal(item) {
         let modalTitle = $('.modal-title');
         // Add name in uppercase to the modal title
@@ -114,6 +174,7 @@ let pokemonRepository = (function () {
         $('#pokemonModal').modal('show');
     }
 
+    // Function to show the full modal with Pokemon details after they are loaded
     function showModal(item) {
         let modalBody = $('.modal-body');
         let modalTitle = $('.modal-title');
@@ -159,7 +220,7 @@ let pokemonRepository = (function () {
             modalBody.append(typeButton);
         });
 
-        // Add stats
+        // Add stats as a table with bars representing the stat values
         modalBody.append('<h4>Stats:</h4>');
         let table = $('<table class="table"></table>');
         let stats = item.stats;
