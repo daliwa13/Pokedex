@@ -84,6 +84,7 @@ let pokemonRepository = (function () {
 
     // Function to load the list of Pokemon, using cache if available and valid
     function loadList(apiUrl){
+        let listInstructions
         const cached = loadPokemonListFromStorage();
         const cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
         if (cached && (Date.now() - cached.saveAt < cacheDuration)) { // Setting cache validity to 24 hours
@@ -255,18 +256,20 @@ let pokemonRepository = (function () {
 
 // Event listener for the pokeball click that creates the list of Pokemon as cards
 let pokeball = document.querySelector('.pokeball');
-let instructions = document.querySelector('#instructions');
+let instructions = document.querySelector('#instructions-pokeball');
 let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 let searchForm = document.querySelector('#search-form');
 let searchButton = document.querySelector('#search-input-btn');
+let pokemonListInstructions = document.querySelector('#instructions-pokemonList');
 
 pokeball.addEventListener('click', function () {
     pokeball.classList.add('disappear'); // Add the disappear class to pokeball
-    instructions.classList.add('move-away'); // Add the disappear class to <h2> instructions
+    instructions.classList.add('move-away'); // Add the move-away class to <h2> instructions-pokeball
 
     pokeball.addEventListener('transitionend', function () {
         pokeball.style.display = 'none'; // Hide the pokeball after the transition
-        instructions.style.display = 'none'; // Hide instructions
+        instructions.style.display = 'none'; // Hide pokeball's instructions
+        pokemonListInstructions.style.display = 'block'; // Show Pokemon list instructions
         showSpinner('#pokemon-list-row', 'pokemon-list-spinner', 'Loading pokemon list...'); // Show the spinner while loading the Pokemon list
         pokemonRepository.loadList(apiUrl)
             .then(function () {

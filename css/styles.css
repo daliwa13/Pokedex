@@ -187,6 +187,12 @@ th {
     transition: all 2s ease;
 }
 
+#instructions-pokemonList{
+    display: none;
+    margin-bottom: 20px;
+    color: var(--red)
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     #footer-center{
